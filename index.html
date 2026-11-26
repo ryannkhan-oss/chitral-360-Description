@@ -240,7 +240,7 @@ $('#route').addEventListener('click',buildRoute);
 
 // Chitral Guide: use the deployed Cloudflare Worker API. The secret stays server-side.
 const AI_API_URL = 'https://chitral-360-ai.mdaudkhan143.workers.dev/api/chat';
-const AI_HEALTH_URL = AI_API_URL.replace(/\\/api\\/chat$/, '/api/health');
+const AI_HEALTH_URL = AI_API_URL.replace('/api/chat', '/api/health');
 const guideMessages = [];
 let guideBusy = false;
 let guideOnline = false;
