@@ -152,7 +152,7 @@ document.addEventListener('click',e=>{
 function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)}
 window.addEventListener('load',()=>setTimeout(()=>$('#intro').classList.add('done'),1750));
 const imageFallback='https://upload.wikimedia.org/wikipedia/commons/0/0e/The_City_of_Chitral_and_Tirich_Mir.jpg';
-$('img').forEach(img=>img.addEventListener('error',()=>{if(img.dataset.fallback)return;img.dataset.fallback='1';img.src=imageFallback;}));
+$$('img').forEach(img=>img.addEventListener('error',()=>{if(img.dataset.fallback)return;img.dataset.fallback='1';img.src=imageFallback;}));
 const heroPhotos=[
  'https://upload.wikimedia.org/wikipedia/commons/0/0e/The_City_of_Chitral_and_Tirich_Mir.jpg',
  'https://upload.wikimedia.org/wikipedia/commons/8/80/Chitral_River_%28Kunar_River_in_Pakistan%29_Near_Drosh%2CChitral%2CKPK.jpg',
