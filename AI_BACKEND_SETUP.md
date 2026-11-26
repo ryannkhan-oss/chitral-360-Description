@@ -9,7 +9,7 @@ This Worker connects the static GitHub Pages site to the OpenAI Responses API. T
 3. In the Worker, open **Settings → Variables and Secrets → Add → Secret**.
 4. Set the variable name to `OPENAI_API_KEY`, paste the API key into the secret value field, and deploy.
 5. Your Worker endpoint will be `https://chitral-360-ai.<your-cloudflare-subdomain>.workers.dev`.
-6. Add `/api/chat` to the endpoint and set that full URL in the `AI_API_URL` constant in `index.html`. The health endpoint is `/api/health`.
+6. Add `/api/chat` to the endpoint and set the full URL in the `AI_API_URL` configuration line in `index.html` (replace the empty fallback with your Worker URL plus `/api/chat`). The health endpoint is `/api/health`.
 
 Do not paste the API key into GitHub, `index.html`, chat messages, or a public issue.
 
