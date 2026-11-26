@@ -35,6 +35,109 @@
 @media(max-width:760px){.topbar{padding:15px 16px}.logo{font-size:11px}.nav-btn{padding:9px 12px;font-size:10px}.hero-content{left:23px;right:22px}.hero-title{font-size:clamp(54px,15vw,90px)}.hero-copy{font-size:13px;max-width:360px}.hero-bottom{left:18px;right:18px;font-size:8px}.menu-screen{padding:90px 16px 25px}.menu-head{display:block}.menu-head p{margin-top:7px}.tiles{grid-template-columns:repeat(2,1fr);gap:9px}.tile{min-height:155px;height:22vh}.tile .tile-txt{left:12px;right:12px;bottom:12px}.tile h3{font-size:17px}.tile p{font-size:10px}.tile .arrow{right:10px;top:10px;width:27px;height:27px}.detail-inner{left:23px;right:23px}.detail-inner h1{font-size:clamp(40px,12vw,65px)}.detail-inner p{font-size:13px}.detail-foot{left:18px;right:18px}.map-title{top:83px;left:13px;max-width:230px;padding:12px}.map-title h2{font-size:18px}.map-loc-list{right:10px;bottom:15px;gap:6px}.map-loc-list button{font-size:9px;padding:9px 11px}.ai-wrap{grid-template-columns:1fr;height:100%;max-height:680px}.ai-side{padding:16px;display:flex;gap:12px;align-items:center}.ai-orb{width:37px;height:37px;margin:0;flex-shrink:0}.ai-side h2{font-size:18px}.ai-side p{display:none}.ai-side .notice{margin:0 0 0 auto;max-width:145px;font-size:9px}.chat-panel{padding:13px}.chat-history{padding:12px 2px}.bubble{font-size:11px}.ai-screen{padding:75px 12px 15px}.chat-head{font-size:9px}}
 @media(max-height:650px) and (min-width:761px){.tile{height:28vh;min-height:145px}.menu-screen{padding-top:85px}.ai-wrap{height:calc(100svh - 105px)}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+/* Screen isolation: each experience must stay hidden until navigation activates it. */
+#app > .screen:not(.active){display:none!important}
+#app > .screen.active{display:block!important}
+#app > .screen.ai-screen.active{display:flex!important}
+@media(max-width:760px){
+  #app > .screen.ai-screen.active{align-items:stretch}
+  .ai-wrap{min-height:0}
+}
+
+/* CHITRAL 360 responsive experience pass */
+html,body{width:100%;height:100%;overscroll-behavior:none}
+#app{height:100vh;height:100dvh;min-height:0}
+.topbar{padding-top:max(16px,env(safe-area-inset-top));}
+.screen{overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#ffffff30 transparent}
+.screen.active{isolation:isolate}
+#leaflet-map{height:100%;width:100%;min-height:100%;background:#162b39}
+.map-frame{height:100%;width:100%}
+.hero-content{width:min(700px,calc(100% - 2 * clamp(22px,8vw,115px)))}
+.hero-title{max-width:100%;overflow-wrap:normal}
+.detail-screen{overflow-y:auto;overflow-x:hidden}
+.detail-screen .detail-bg{position:fixed;inset:0;pointer-events:none}
+.detail-inner{position:relative;top:auto;left:auto;right:auto;transform:none;width:min(950px,calc(100% - 2 * clamp(22px,7vw,100px)));margin:0 auto;padding-top:clamp(145px,22vh,220px);padding-bottom:120px}
+.detail-foot{position:fixed;bottom:max(18px,env(safe-area-inset-bottom));}
+.menu-screen{overscroll-behavior:contain}
+.ai-screen{min-height:0;min-width:0}
+.ai-wrap{min-height:0;min-width:0}
+.chat-panel,.chat-history{min-height:0;min-width:0}
+.screen.enter{animation:screenFadeIn .38s ease both}
+@keyframes screenFadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.transition-cover{display:none}
+@media(max-width:760px){
+  #app{overflow:hidden}
+  .topbar{padding-left:16px;padding-right:16px}
+  .hero-content{top:auto;bottom:clamp(105px,15vh,145px);left:22px;right:22px;transform:none;width:auto;max-width:560px}
+  .hero-title{font-size:clamp(48px,13.2vw,76px);line-height:.98;letter-spacing:-.065em;margin-top:18px}
+  .hero-copy{font-size:13px;line-height:1.65;margin-top:16px;max-width:390px}
+  .hero-buttons{margin-top:20px;gap:9px}
+  .action{padding:12px 15px;font-size:10px}
+  .hero-bottom{bottom:max(16px,env(safe-area-inset-bottom));left:18px;right:18px;gap:12px;align-items:center}
+  .hero-bottom>span{max-width:48%;line-height:1.5}
+  .scroll-cue{justify-content:flex-end;text-align:right}
+  .menu-screen{padding:calc(82px + env(safe-area-inset-top)) 16px calc(28px + env(safe-area-inset-bottom));}
+  .menu-head{margin-bottom:18px}
+  .tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .tile{height:clamp(150px,22vh,205px);min-height:0;border-radius:13px}
+  .tile h3{font-size:clamp(15px,4.2vw,19px)}
+  .tile p{font-size:10px}
+  .detail-screen{padding-bottom:calc(82px + env(safe-area-inset-bottom))}
+  .detail-inner{width:auto;margin:0 22px;padding-top:clamp(132px,19vh,175px);padding-bottom:38px}
+  .detail-inner h1{font-size:clamp(38px,10.8vw,60px);line-height:1.02;margin:16px 0}
+  .detail-inner p{font-size:13px;line-height:1.75}
+  .detail-facts{gap:8px;margin-top:18px}
+  .fact-chip{font-size:10px;padding:9px 11px}
+  .detail-foot{position:fixed;bottom:max(12px,env(safe-area-inset-bottom));left:14px;right:14px;gap:8px}
+  .detail-foot .action{padding:10px 12px;font-size:9px}
+  .detail-foot .kicker{font-size:8px}
+  .map-title{top:calc(78px + env(safe-area-inset-top));left:12px;max-width:min(230px,65vw)}
+  .map-loc-list{left:10px;right:10px;bottom:calc(18px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .map-loc-list button{min-height:38px}
+  .map-screen .detail-foot{bottom:calc(112px + env(safe-area-inset-bottom))}
+  .ai-screen.active{display:flex!important;align-items:stretch;justify-content:stretch;padding:calc(76px + env(safe-area-inset-top)) 10px calc(12px + env(safe-area-inset-bottom))}
+  .ai-wrap{height:100%;max-height:none;width:100%;display:flex;flex-direction:column;border-radius:17px}
+  .ai-side{flex:0 0 auto;padding:13px 14px;display:grid;grid-template-columns:38px minmax(0,1fr);gap:4px 11px;align-items:center}
+  .ai-orb{grid-row:1/3;width:36px;height:36px;margin:0}
+  .ai-side .kicker{font-size:8px}
+  .ai-side h2{font-size:17px;margin:3px 0 0}
+  .ai-side p{display:none}
+  .ai-side .notice{grid-column:1/-1;max-width:none;margin:8px 0 0;padding-top:8px;border-top:1px solid #ffffff15;font-size:9px}
+  .chat-panel{flex:1;padding:12px;overflow:hidden}
+  .chat-head{font-size:8px;padding-bottom:10px}
+  .chat-history{flex:1;overflow-y:auto;min-height:80px;padding:12px 2px}
+  .bubble{max-width:94%;font-size:11px;padding:10px 12px}
+  .chat-suggestions{flex:0 0 auto;gap:6px;padding-bottom:9px}
+  .chat-suggestions button{font-size:9px;padding:8px 9px}
+  .chat-input-row input{font-size:12px}
+  .ai-screen .detail-foot{display:none}
+}
+@media(max-width:380px){
+  .logo{gap:7px;font-size:10px;letter-spacing:.14em}
+  .top-actions{gap:6px}
+  .nav-btn{padding:8px 10px}
+  .hero-title{font-size:clamp(44px,12.5vw,52px)}
+  .hero-bottom{font-size:7px;letter-spacing:.1em}
+  .tiles{gap:8px}
+  .tile{height:155px}
+  .tile p{display:none}
+}
+@media(max-height:700px) and (max-width:760px){
+  .hero-content{bottom:88px}
+  .hero-title{font-size:clamp(42px,11vw,62px)}
+  .hero-copy{margin-top:11px;line-height:1.5}
+  .hero-buttons{margin-top:13px}
+  .hero-bottom{bottom:10px}
+  .menu-screen{padding-top:76px}
+  .menu-head{margin-bottom:12px}
+  .menu-head h2{font-size:28px;margin:5px 0}
+  .tile{height:145px}
+  .detail-inner{padding-top:118px}
+}
+@media(prefers-reduced-motion:reduce){
+  .screen.enter{animation:none}
+  .hero-bg{transition:none}
+}
 </style>
 </head>
 <body>
@@ -63,7 +166,7 @@
 const screens=[...document.querySelectorAll('.screen')];let current='home',mapInstance=null,markers={};
 function go(id){if(!document.getElementById(id))return;if(id===current)return;const cover=document.getElementById('cover');cover.classList.remove('play');void cover.offsetWidth;cover.classList.add('play');setTimeout(()=>{screens.forEach(s=>{s.classList.remove('active','enter');if(s.id===current)s.classList.add('exit')});const old=document.getElementById(current);old.classList.remove('exit');const next=document.getElementById(id);next.classList.add('active','enter');current=id;if(id==='map')setTimeout(initMap,180);},220);setTimeout(()=>cover.classList.remove('play'),600)}
 document.addEventListener('click',e=>{const goBtn=e.target.closest('[data-go]');if(goBtn){go(goBtn.dataset.go);if(goBtn.dataset.ask){setTimeout(()=>ask(goBtn.dataset.ask),300)}const tile=e.target.closest('.tile');if(tile){tile.style.transform='scale(.97)';setTimeout(()=>tile.style.transform='',160)}}});
-function initMap(){if(!window.L){showToast('Map library could not load. Check your internet connection.');return}if(!mapInstance){mapInstance=L.map('leaflet-map',{zoomControl:true}).setView([35.85,71.78],9);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap contributors'}).addTo(mapInstance);const places={chitral:{p:[35.851,71.786],z:12,n:'Chitral Town',d:'Chitral, northern Pakistan'},kalash:{p:[35.69,71.72],z:11,n:'Kalash Valleys',d:'Valleys west of Chitral'},tirich:{p:[36.25,71.83],z:9,n:'Tirich Mir',d:'Hindu Kush mountain'},shandur:{p:[36.09,72.50],z:9,n:'Shandur Pass',d:'High mountain pass and plateau'}};Object.entries(places).forEach(([key,v])=>{markers[key]=L.marker(v.p).addTo(mapInstance).bindPopup('<b>'+v.n+'</b><br>'+v.d);});document.querySelectorAll('[data-place]').forEach(b=>b.addEventListener('click',()=>{const v=places[b.dataset.place];mapInstance.flyTo(v.p,v.z,{duration:1.25});markers[b.dataset.place].openPopup()}));}mapInstance.invalidateSize();}
+function initMap(){if(!window.L){showToast('Map library could not load. Check your internet connection.');return}if(!mapInstance){mapInstance=L.map('leaflet-map',{zoomControl:true,scrollWheelZoom:false,tap:true}).setView([35.85,71.78],9);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap contributors'}).addTo(mapInstance);const places={chitral:{p:[35.851,71.786],z:12,n:'Chitral Town',d:'Chitral, northern Pakistan'},kalash:{p:[35.69,71.72],z:11,n:'Kalash Valleys',d:'Valleys west of Chitral'},tirich:{p:[36.25,71.83],z:9,n:'Tirich Mir',d:'Hindu Kush mountain'},shandur:{p:[36.09,72.50],z:9,n:'Shandur Pass',d:'High mountain pass and plateau'}};Object.entries(places).forEach(([key,v])=>{markers[key]=L.marker(v.p).addTo(mapInstance).bindPopup('<b>'+v.n+'</b><br>'+v.d);});document.querySelectorAll('[data-place]').forEach(b=>b.addEventListener('click',()=>{const v=places[b.dataset.place];mapInstance.flyTo(v.p,v.z,{duration:1.25});markers[b.dataset.place].openPopup()}));}mapInstance.invalidateSize();}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400)}
 const answers=[
 {keys:['where','located','location','geography'],a:'Chitral is in northern Pakistan, in Khyber Pakhtunkhwa, within the mountainous Hindu Kush region and near the Afghanistan border. The area is known for high mountain valleys and distinct local communities.'},
