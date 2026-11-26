@@ -52,7 +52,7 @@
 <article class="experience" data-go="heritage"><img loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/d/d6/Shahi_Fort_Chitral_KPK_Pakistan.JPG" alt="Historic Shahi Fort in Chitral"><span class="exp-arrow">↗</span><div class="exp-info"><small>04 · HISTORY</small><h3>Heritage</h3><p>Historic landmarks and stories of the region.</p></div></article>
 <article class="experience" data-go="map"><img loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/8/80/Chitral_River_%28Kunar_River_in_Pakistan%29_Near_Drosh%2CChitral%2CKPK.jpg" alt="Chitral River"><span class="exp-arrow">↗</span><div class="exp-info"><small>05 · NAVIGATE</small><h3>Interactive map</h3><p>Find places and plan a road journey.</p></div></article>
 <article class="experience" data-go="guide"><img loading="lazy" src="https://upload.wikimedia.org/wikipedia/commons/5/59/Local_dress_in_chitral_Valley.jpg" alt="Traditional clothing in Chitral"><span class="exp-arrow">↗</span><div class="exp-info"><small>06 · ASK</small><h3>Chitral guide</h3><p>Ask questions and explore local knowledge.</p></div></article>
-<div class="photo-credits" style="margin:34px 0 0;padding:18px 0;border-top:1px solid #ffffff1b;color:#9eabb8;font-size:9px;line-height:1.8"><strong style="display:block;color:#e7a8c9;letter-spacing:.18em;margin-bottom:6px">PHOTOGRAPHY CREDITS</strong>Chitral city & Tirich Mir — Emaad Paracha · Kalash Valley — Waleed0343 · Chilam Joshi festival — Jugni · Markhor / mountain goats — Abrar Alam Khan (identification noted as uncertain by source) · Shahi Fort — Kamran Adil · Shahi Mosque — Awais Anwar · Local dress — Noor Muhammad kpk · Qaqlasht — Altamish Azhar · Chitral Gol meadows — Tahsin A Shah · Chitral River near Drosh — Shahidalibmw · Nagar Fort valley view — Azmat akbar. Images sourced from Wikimedia Commons. Each file page identifies its photographer and exact Creative Commons license.</div></div>
+<div class="photo-credits" style="margin:34px 0 0;padding:18px 0;border-top:1px solid #ffffff1b;color:#9eabb8;font-size:9px;line-height:1.8"><strong style="display:block;color:#e7a8c9;letter-spacing:.18em;margin-bottom:6px">PHOTOGRAPHY CREDITS</strong><a href="https://commons.wikimedia.org/wiki/File:The_City_of_Chitral_and_Tirich_Mir.jpg" target="_blank" rel="noopener">Chitral city & Tirich Mir — Emaad Paracha</a> · <a href="https://commons.wikimedia.org/wiki/File:Kalash_Valley,_Chitral,_Pakistan.jpg" target="_blank" rel="noopener">Kalash Valley — Waleed0343</a> · <a href="https://commons.wikimedia.org/wiki/File:Chilam_joshi_folk_Festival_celebrations_in_Kalash.jpg" target="_blank" rel="noopener">Chilam Joshi festival — Jugni</a> · <a href="https://commons.wikimedia.org/wiki/File:Markhor_at_Ghitral_Gol_National_Park_-_panoramio.jpg" target="_blank" rel="noopener">Wild mountain goats — Abrar Alam Khan (source identification uncertain)</a> · <a href="https://commons.wikimedia.org/wiki/File:Shahi_Fort_Chitral_KPK_Pakistan.JPG" target="_blank" rel="noopener">Shahi Fort — Kamran Adil</a> · <a href="https://commons.wikimedia.org/wiki/File:Shahi_Mosque_Chitral,_Near_Chitral_Fort,_Chitral_KPK.jpg" target="_blank" rel="noopener">Shahi Mosque — Awais Anwar</a> · <a href="https://commons.wikimedia.org/wiki/File:Local_dress_in_chitral_Valley.jpg" target="_blank" rel="noopener">Local dress — Noor Muhammad kpk</a> · <a href="https://commons.wikimedia.org/wiki/File:Qaqlasht_chitral.jpg" target="_blank" rel="noopener">Qaqlasht — Altamish Azhar</a> · <a href="https://commons.wikimedia.org/wiki/File:Meadows_of_Chitral_Gol_National_Park;_Tahsin_Shah_03.jpg" target="_blank" rel="noopener">Chitral Gol meadows — Tahsin A Shah</a> · <a href="https://commons.wikimedia.org/wiki/File:Chitral_River_(Kunar_River_in_Pakistan)_Near_Drosh,Chitral,KPK.jpg" target="_blank" rel="noopener">Chitral River near Drosh — Shahidalibmw</a> · <a href="https://commons.wikimedia.org/wiki/File:Chitral_valley_view_from_Nagar_fort.jpg" target="_blank" rel="noopener">Nagar Fort valley view — Azmat akbar</a>. Images sourced from Wikimedia Commons. Each file page identifies its exact Creative Commons license.</div></div>
 </section>
 
 <section class="screen section-page" id="destinations">
@@ -122,8 +122,8 @@ const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 let current='home',map=null,routeLine=null,userPin=null,placePins={};
 const placeData=[
  {id:'town',name:'Chitral Town',coords:[35.851,71.786],zoom:13,desc:'Main town of Lower Chitral'},
- {id:'fort',name:'Chitral Fort',coords:[35.8506,71.7855],zoom:16,desc:'Historic fort beside the Chitral River'},
- {id:'mosque',name:'Shahi Mosque',coords:[35.8517,71.7850],zoom:16,desc:'Historic mosque in Chitral Town'},
+ {id:'fort',name:'Chitral Fort',coords:[35.8547,71.7913],zoom:16,desc:'Historic fort beside the Chitral River'},
+ {id:'mosque',name:'Shahi Mosque',coords:[35.8556,71.7894],zoom:16,desc:'Historic mosque in Chitral Town'},
  {id:'ayun',name:'Ayun Valley',coords:[35.674,71.783],zoom:12,desc:'Valley south of Chitral Town'},
  {id:'bumburet',name:'Bumburet',coords:[35.675,71.716],zoom:12,desc:'One of the Kalash valleys'},
  {id:'rumbur',name:'Rumbur',coords:[35.733,71.704],zoom:12,desc:'Kalash valley north of Bumburet'},
@@ -183,7 +183,7 @@ function initMap(){
   const b=document.createElement('button');b.textContent=p.name;b.addEventListener('click',()=>{map.flyTo(p.coords,p.zoom,{duration:1.1});placePins[p.id].openPopup();$('#to').value=p.name});
   container.appendChild(b);
  });
- setTimeout(()=>map.invalidateSize(true),300);
+ setTimeout(()=>map.invalidateSize(true),300);status('Map ready · choose a place or enter your route.');
 }
 function status(t){$('#map-status').textContent=t}
 function getPosition(){
