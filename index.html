@@ -138,6 +138,66 @@ html,body{width:100%;height:100%;overscroll-behavior:none}
   .screen.enter{animation:none}
   .hero-bg{transition:none}
 }
+
+/* Final mobile/header and navigation correction */
+.topbar{min-height:68px;padding-top:max(12px,env(safe-area-inset-top));padding-bottom:12px;gap:12px}
+.logo{min-width:0;white-space:nowrap;letter-spacing:.14em;flex-shrink:1}
+.top-actions{flex-shrink:0}
+.menu-screen{padding-top:clamp(112px,15vh,150px)}
+.menu-head{gap:22px}
+.menu-head h2{line-height:1.08;overflow-wrap:anywhere}
+.menu-head p{margin:0}
+.transition-cover{display:block;opacity:1}
+.transition-cover.play{animation:wipe .72s cubic-bezier(.7,0,.2,1)}
+.screen.enter{animation:screenFadeIn .55s cubic-bezier(.2,.75,.2,1) both}
+.screen.exit{animation:screenOut .34s ease both}
+@media(max-width:760px){
+ .topbar{min-height:62px;padding-top:max(10px,env(safe-area-inset-top));padding-bottom:10px;gap:8px}
+ .logo{font-size:clamp(9px,2.6vw,11px);gap:7px;letter-spacing:.1em}
+ .logo-mark{width:27px;height:27px;flex:0 0 27px}
+ .top-actions{gap:6px}
+ .nav-btn{padding:9px 10px;font-size:9px;white-space:nowrap}
+ .icon-btn{width:35px;height:35px;flex:0 0 35px}
+ .menu-screen{padding:calc(105px + env(safe-area-inset-top)) 16px calc(26px + env(safe-area-inset-bottom))}
+ .menu-head{display:block;margin-bottom:20px}
+ .menu-head h2{font-size:clamp(30px,8.5vw,42px);margin:9px 0 8px;line-height:1.08}
+ .menu-head p{font-size:12px;line-height:1.65;max-width:100%}
+ .tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .tile{height:clamp(158px,22vh,205px);min-height:0}
+ .transition-cover{display:block}
+ .route-panel{top:calc(174px + env(safe-area-inset-top));left:12px;right:12px;width:auto;max-width:430px}
+ .map-title{top:calc(78px + env(safe-area-inset-top));max-width:220px}
+ .map-loc-list{display:none}
+ .map-screen .detail-foot{display:none}
+}
+@media(max-width:380px){
+ .menu-screen{padding-top:calc(101px + env(safe-area-inset-top))}
+ .menu-head h2{font-size:30px}
+ .tile{height:158px}
+ .tile p{display:block;font-size:9px}
+}
+.route-panel{position:absolute;z-index:12;top:205px;left:22px;width:min(330px,calc(100% - 44px));padding:15px;border:1px solid #ffffff26;border-radius:15px;background:#101722eF;backdrop-filter:blur(20px);box-shadow:0 16px 50px #0006;color:#f4f3f0}
+.route-panel-head{display:flex;align-items:center;gap:8px;margin-bottom:13px;font-size:9px;letter-spacing:.13em}
+.route-dot{width:7px;height:7px;border-radius:50%;background:#9be2b4;box-shadow:0 0 10px #9be2b4}
+.route-live{margin-left:auto;color:#aab6c4;font-size:8px}
+.route-panel label{display:block;color:#c4a4bc;font-size:8px;letter-spacing:.14em;margin:10px 0 6px}
+.route-panel input{width:100%;min-width:0;padding:11px 12px;border-radius:9px;border:1px solid #ffffff26;background:#080d15;color:#f4f3f0;font-size:11px;outline:none}
+.route-panel input:focus{border-color:#e6a5c8}
+.route-field{display:flex;gap:7px}
+.route-field input{flex:1}
+.route-field button{width:40px;flex:0 0 40px;border:1px solid #ffffff28;border-radius:9px;background:#202b39;color:#e6a5c8;font-size:20px}
+.route-submit{width:100%;margin-top:11px;padding:11px;border:0;border-radius:9px;background:#e6a5c8;color:#241827;font-weight:700;font-size:10px;letter-spacing:.1em}
+.route-submit:disabled{opacity:.6}
+.route-status{margin-top:9px;color:#cbd2dc;font-size:10px;line-height:1.5}
+.route-directions{max-height:140px;overflow:auto;margin-top:8px;color:#cbd2dc;font-size:9px;line-height:1.6}
+.route-directions ol{padding-left:18px;margin:5px 0}
+.route-directions li{padding:3px 0;border-bottom:1px solid #ffffff10}
+.route-panel .route-summary{color:#e6a5c8;font-weight:700}
+.leaflet-tooltip.place-label{background:#111722eF;color:#fff;border:1px solid #e6a5c8aa;border-radius:6px;box-shadow:0 3px 14px #0006;font:600 10px 'DM Sans',sans-serif;padding:5px 8px}
+.leaflet-tooltip.place-label:before{display:none}
+.leaflet-routing-line{filter:drop-shadow(0 2px 5px #0009)}
+@media(max-width:760px){.route-panel{top:auto;bottom:calc(18px + env(safe-area-inset-bottom));left:10px;right:10px;width:auto;max-width:none;padding:12px}.route-panel-head{margin-bottom:8px}.route-panel label{margin:7px 0 4px}.route-panel input{padding:10px;font-size:11px}.route-submit{padding:10px;margin-top:8px}.route-status{margin-top:6px}.route-directions{max-height:86px}.map-title{top:calc(78px + env(safe-area-inset-top));left:10px;padding:10px;max-width:200px}.map-title h2{font-size:16px}.map-title p{font-size:9px}}
+
 </style>
 </head>
 <body>
@@ -157,16 +217,124 @@ html,body{width:100%;height:100%;overscroll-behavior:none}
 <div class="screen detail-screen" id="culture"><div class="detail-bg" style="background-image:url('https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=2200&q=90')"></div><div class="detail-inner"><div class="kicker">People · Living culture</div><h1>Many languages.<br>One mountain home.</h1><p>Chitral is home to diverse communities, languages and traditions. Khowar and other regional languages, music, crafts, celebrations and local knowledge form a rich cultural landscape. Explore with respect: culture is living, and each community has its own identity.</p><div class="detail-facts"><span class="fact-chip">Khowar language</span><span class="fact-chip">Kalash heritage</span><span class="fact-chip">Music & traditions</span><span class="fact-chip">Community stories</span></div><div class="hero-buttons"><button class="action primary" data-go="ai" data-ask="Tell me about the cultures and languages of Chitral">ASK THE EXPLORER ↗</button><button class="action" data-go="menu">OTHER EXPERIENCES</button></div></div><div class="detail-foot"><button class="action" data-go="menu">← ALL EXPERIENCES</button><span class="kicker">02 / CULTURE</span></div></div>
 <div class="screen detail-screen" id="wildlife"><div class="detail-bg" style="background-image:url('https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=2200&q=90')"></div><div class="detail-inner"><div class="kicker">Nature · Conservation</div><h1>Wild, beautiful<br>and worth protecting.</h1><p>The Hindu Kush region supports remarkable mountain ecosystems and wildlife. Species such as markhor, ibex and snow leopard are part of the wider landscape. Discover why habitat protection, research and responsible travel matter.</p><div class="detail-facts"><span class="fact-chip">Markhor</span><span class="fact-chip">Ibex</span><span class="fact-chip">Snow leopard</span><span class="fact-chip">Mountain habitats</span></div><div class="hero-buttons"><button class="action primary" data-go="ai" data-ask="Tell me about wildlife and conservation in Chitral">ASK THE EXPLORER ↗</button><button class="action" data-go="menu">OTHER EXPERIENCES</button></div></div><div class="detail-foot"><button class="action" data-go="menu">← ALL EXPERIENCES</button><span class="kicker">03 / WILDLIFE</span></div></div>
 <div class="screen detail-screen" id="heritage"><div class="detail-bg" style="background-image:url('https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=2200&q=90')"></div><div class="detail-inner"><div class="kicker">History · Heritage</div><h1>Stories shaped<br>by the mountains.</h1><p>Chitral's past has been shaped by geography, trade, neighbouring regions, local leadership and cultural exchange. This section is a starting point for discovering landmarks, timelines and oral histories—with careful sourcing as it grows.</p><div class="detail-facts"><span class="fact-chip">Historic places</span><span class="fact-chip">Local history</span><span class="fact-chip">Trade & exchange</span><span class="fact-chip">Oral histories</span></div><div class="hero-buttons"><button class="action primary" data-go="ai" data-ask="Give me an overview of Chitral's history">ASK THE EXPLORER ↗</button><button class="action" data-go="menu">OTHER EXPERIENCES</button></div></div><div class="detail-foot"><button class="action" data-go="menu">← ALL EXPERIENCES</button><span class="kicker">04 / HERITAGE</span></div></div>
-<div class="screen map-screen" id="map"><div class="map-frame"><div id="leaflet-map"></div></div><div class="map-title"><div class="kicker">Geographic explorer</div><h2>Chitral, mapped.</h2><p>Tap a marker or destination button to explore. Map tiles require an internet connection.</p></div><div class="map-loc-list"><button data-place="chitral">Chitral Town</button><button data-place="kalash">Kalash Valleys</button><button data-place="tirich">Tirich Mir</button><button data-place="shandur">Shandur Pass</button></div><div class="detail-foot"><button class="action" data-go="menu">← ALL EXPERIENCES</button><span class="kicker">05 / MAP</span></div></div>
+<div class="screen map-screen" id="map"><div class="map-frame"><div id="leaflet-map"></div></div><div class="map-title"><div class="kicker">Geographic explorer</div><h2>Chitral, mapped.</h2><p>Search a starting point and destination to draw a real road route. Map and routing need internet access.</p></div>
+<div class="route-panel" aria-label="Route planner">
+  <div class="route-panel-head"><span class="route-dot"></span><strong>PLAN YOUR ROUTE</strong><span class="route-live">OPENSTREETMAP</span></div>
+  <label for="route-from">STARTING LOCATION</label>
+  <div class="route-field"><input id="route-from" type="text" value="Chitral Bazar" placeholder="Enter your starting point" autocomplete="off"><button id="use-location" type="button" title="Use my current location">◎</button></div>
+  <label for="route-to">DESTINATION</label>
+  <input id="route-to" type="text" value="Aga Khan Higher Secondary School, Seenlasht, Chitral" placeholder="Where do you want to go?" autocomplete="off">
+  <button class="route-submit" id="route-submit" type="button">FIND ROUTE <span>↗</span></button>
+  <div class="route-status" id="route-status" role="status">Enter two places, then tap Find Route.</div>
+  <div class="route-directions" id="route-directions"></div>
+</div>
+<div class="map-loc-list"><button data-place="chitral">Chitral Town</button><button data-place="kalash">Kalash Valleys</button><button data-place="tirich">Tirich Mir</button><button data-place="shandur">Shandur Pass</button></div><div class="detail-foot"><button class="action" data-go="menu">← ALL EXPERIENCES</button><span class="kicker">05 / MAP</span></div></div>
 <div class="screen ai-screen" id="ai"><div class="ai-wrap"><aside class="ai-side"><div class="ai-orb"></div><div><div class="kicker">CHITRAL KNOWLEDGE GUIDE</div><h2>Ask the Explorer.</h2></div><p>Ask about places, culture, geography, wildlife, history or travel. This prototype uses a curated local knowledge set and is not connected to a generative AI service yet.</p><div class="notice">PREVIEW MODE · Answers may be limited. We'll connect a secure AI backend in a later phase.</div></aside><div class="chat-panel"><div class="chat-head"><span>CHITRAL 360 · FIELD ASSISTANT</span><span class="chat-status">● READY</span></div><div class="chat-history" id="chat-history"><div class="bubble assistant">Welcome, explorer. Ask me about Chitral, or tap a suggested question to begin.</div></div><div class="chat-suggestions"><button data-question="Where is Chitral located?">Where is Chitral?</button><button data-question="Tell me about Tirich Mir.">Tirich Mir</button><button data-question="What is Kalash culture?">Kalash culture</button><button data-question="Which wildlife lives here?">Wildlife</button></div><form class="chat-input-row" id="chat-form"><input id="chat-input" placeholder="Ask a question…" autocomplete="off"><button aria-label="Send question">↑</button></form></div></div><div class="detail-foot"><button class="action" data-go="menu">← ALL EXPERIENCES</button><span class="kicker">06 / AI EXPLORER</span></div></div>
 <div class="transition-cover" id="cover"></div><div class="toast" id="toast"></div>
 </div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 const screens=[...document.querySelectorAll('.screen')];let current='home',mapInstance=null,markers={};
-function go(id){if(!document.getElementById(id))return;if(id===current)return;const cover=document.getElementById('cover');cover.classList.remove('play');void cover.offsetWidth;cover.classList.add('play');setTimeout(()=>{screens.forEach(s=>{s.classList.remove('active','enter');if(s.id===current)s.classList.add('exit')});const old=document.getElementById(current);old.classList.remove('exit');const next=document.getElementById(id);next.classList.add('active','enter');current=id;if(id==='map')setTimeout(initMap,180);},220);setTimeout(()=>cover.classList.remove('play'),600)}
+function go(id){
+ if(!document.getElementById(id)||id===current)return;
+ const previous=document.getElementById(current),next=document.getElementById(id),cover=document.getElementById('cover');
+ cover.classList.remove('play');void cover.offsetWidth;cover.classList.add('play');
+ previous.classList.add('exit');
+ setTimeout(()=>{
+  previous.classList.remove('active','exit','enter');
+  next.classList.add('active','enter');
+  current=id;
+  if(id==='map')setTimeout(initMap,180);
+  if(id==='menu'){const menu=document.getElementById('menu');menu.scrollTop=0;}
+ },260);
+ setTimeout(()=>{cover.classList.remove('play');next.classList.remove('enter');},850);
+}
 document.addEventListener('click',e=>{const goBtn=e.target.closest('[data-go]');if(goBtn){go(goBtn.dataset.go);if(goBtn.dataset.ask){setTimeout(()=>ask(goBtn.dataset.ask),300)}const tile=e.target.closest('.tile');if(tile){tile.style.transform='scale(.97)';setTimeout(()=>tile.style.transform='',160)}}});
-function initMap(){if(!window.L){showToast('Map library could not load. Check your internet connection.');return}if(!mapInstance){mapInstance=L.map('leaflet-map',{zoomControl:true,scrollWheelZoom:false,tap:true}).setView([35.85,71.78],9);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap contributors'}).addTo(mapInstance);const places={chitral:{p:[35.851,71.786],z:12,n:'Chitral Town',d:'Chitral, northern Pakistan'},kalash:{p:[35.69,71.72],z:11,n:'Kalash Valleys',d:'Valleys west of Chitral'},tirich:{p:[36.25,71.83],z:9,n:'Tirich Mir',d:'Hindu Kush mountain'},shandur:{p:[36.09,72.50],z:9,n:'Shandur Pass',d:'High mountain pass and plateau'}};Object.entries(places).forEach(([key,v])=>{markers[key]=L.marker(v.p).addTo(mapInstance).bindPopup('<b>'+v.n+'</b><br>'+v.d);});document.querySelectorAll('[data-place]').forEach(b=>b.addEventListener('click',()=>{const v=places[b.dataset.place];mapInstance.flyTo(v.p,v.z,{duration:1.25});markers[b.dataset.place].openPopup()}));}mapInstance.invalidateSize();}
+let routeLayer=null,routeStartMarker=null,routeEndMarker=null,routePlaceMarkers={};
+const knownPlaces={
+ chitral:{name:"Chitral Town",coords:[35.851,71.786],zoom:12},
+ kalash:{name:"Kalash Valleys",coords:[35.69,71.72],zoom:11},
+ tirich:{name:"Tirich Mir",coords:[36.25,71.83],zoom:9},
+ shandur:{name:"Shandur Pass",coords:[36.09,72.50],zoom:9}
+};
+function setRouteStatus(message){const el=document.getElementById('route-status');if(el)el.textContent=message;}
+async function geocodePlace(query){
+ const url='https://photon.komoot.io/api/?q='+encodeURIComponent(query+' Chitral Pakistan')+'&limit=1&lat=35.85&lon=71.78';
+ const response=await fetch(url,{headers:{'Accept':'application/json'}});
+ if(!response.ok)throw new Error('Place search is temporarily unavailable.');
+ const data=await response.json(),feature=data.features&&data.features[0];
+ if(!feature)throw new Error('Could not find “'+query+'”. Try a nearby town, landmark or a more specific name.');
+ const [lon,lat]=feature.geometry.coordinates,props=feature.properties||{};
+ return {lat,lon,name:[props.name,props.street,props.city,props.state].filter(Boolean).join(', ')||query};
+}
+function addPlaceMarker(key,place){
+ const marker=L.marker(place.coords).addTo(mapInstance).bindPopup('<strong>'+place.name+'</strong>');
+ marker.bindTooltip(place.name,{permanent:true,direction:'top',offset:[0,-9],className:'place-label'});
+ routePlaceMarkers[key]=marker;
+}
+function initMap(){
+ if(!window.L){showToast('Map library could not load. Check your internet connection.');return;}
+ if(!mapInstance){
+  mapInstance=L.map('leaflet-map',{zoomControl:true,scrollWheelZoom:false,tap:true}).setView([35.85,71.78],9);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(mapInstance);
+  Object.entries(knownPlaces).forEach(([key,p])=>addPlaceMarker(key,p));
+  document.querySelectorAll('[data-place]').forEach(button=>button.addEventListener('click',()=>{
+   const p=knownPlaces[button.dataset.place];if(!p)return;
+   mapInstance.flyTo(p.coords,p.zoom,{duration:1.1});routePlaceMarkers[button.dataset.place].openPopup();
+  }));
+  document.getElementById('route-submit').addEventListener('click',findRoute);
+  document.getElementById('use-location').addEventListener('click',useCurrentLocation);
+  ['route-from','route-to'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')findRoute();}));
+ }
+ setTimeout(()=>mapInstance.invalidateSize(true),120);
+}
+async function useCurrentLocation(){
+ if(!navigator.geolocation){setRouteStatus('This browser does not support location access. Enter your starting place instead.');return;}
+ setRouteStatus('Requesting your location permission…');
+ navigator.geolocation.getCurrentPosition(position=>{
+  window.chitralCurrentOrigin={lat:position.coords.latitude,lon:position.coords.longitude,name:'Your current location'};
+  document.getElementById('route-from').value='My current location';
+  setRouteStatus('Your location is ready. Enter a destination and find your route.');
+  mapInstance.setView([position.coords.latitude,position.coords.longitude],14);
+ },error=>{
+  const message=error.code===1?'Location permission was denied. You can type your starting location instead.':'Could not get your location. Check GPS/location settings or type your starting point.';
+  setRouteStatus(message);
+ },{enableHighAccuracy:true,timeout:12000,maximumAge:30000});
+}
+function routeInstruction(step){
+ const m=step.maneuver||{},type=(m.type||'continue').replace(/_/g,' '),modifier=m.modifier?(' '+m.modifier):'',street=step.name?(' onto '+step.name):'';
+ if(type==='depart')return 'Start'+street;
+ if(type==='arrive')return 'Arrive at your destination';
+ return type.charAt(0).toUpperCase()+type.slice(1)+modifier+street;
+}
+async function findRoute(){
+ const fromText=document.getElementById('route-from').value.trim(),toText=document.getElementById('route-to').value.trim(),button=document.getElementById('route-submit'),directions=document.getElementById('route-directions');
+ if(!fromText||!toText){setRouteStatus('Enter both a starting location and a destination.');return;}
+ button.disabled=true;button.textContent='SEARCHING…';directions.innerHTML='';
+ try{
+  const start=(fromText.toLowerCase()==='my current location'&&window.chitralCurrentOrigin)?window.chitralCurrentOrigin:await geocodePlace(fromText);
+  const end=await geocodePlace(toText);
+  setRouteStatus('Finding a drivable road route…');
+  const url='https://router.project-osrm.org/route/v1/driving/'+start.lon+','+start.lat+';'+end.lon+','+end.lat+'?overview=full&geometries=geojson&steps=true';
+  const response=await fetch(url);if(!response.ok)throw new Error('The routing service did not respond. Try again in a moment.');
+  const data=await response.json();if(data.code!=='Ok'||!data.routes||!data.routes.length)throw new Error('No road route was found between these places. Try a different nearby road-accessible location.');
+  const route=data.routes[0],latlngs=route.geometry.coordinates.map(pair=>[pair[1],pair[0]]);
+  if(routeLayer)mapInstance.removeLayer(routeLayer);
+  if(routeStartMarker)mapInstance.removeLayer(routeStartMarker);
+  if(routeEndMarker)mapInstance.removeLayer(routeEndMarker);
+  routeLayer=L.polyline(latlngs,{color:'#e68dbd',weight:6,opacity:.95,lineCap:'round',lineJoin:'round'}).addTo(mapInstance);
+  routeStartMarker=L.marker([start.lat,start.lon]).addTo(mapInstance).bindPopup('<strong>START</strong><br>'+start.name);
+  routeEndMarker=L.marker([end.lat,end.lon]).addTo(mapInstance).bindPopup('<strong>DESTINATION</strong><br>'+end.name);
+  mapInstance.fitBounds(routeLayer.getBounds(),{padding:[35,35],maxZoom:14});
+  const km=(route.distance/1000).toFixed(1),mins=Math.round(route.duration/60);
+  const duration=mins>=60?Math.floor(mins/60)+' hr '+(mins%60)+' min':mins+' min';
+  setRouteStatus('Route found. The highlighted line follows the road network.');
+  const steps=(route.legs||[]).flatMap(leg=>leg.steps||[]).filter(step=>step.distance>20).slice(0,12);
+  directions.innerHTML='<div class="route-summary">'+km+' km · about '+duration+'</div><ol>'+steps.map(step=>'<li>'+routeInstruction(step)+'</li>').join('')+'</ol>';
+  routeStartMarker.openPopup();
+ }catch(error){setRouteStatus(error.message||'Unable to calculate this route right now.');}
+ finally{button.disabled=false;button.innerHTML='FIND ROUTE <span>↗</span>';}
+}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400)}
 const answers=[
 {keys:['where','located','location','geography'],a:'Chitral is in northern Pakistan, in Khyber Pakhtunkhwa, within the mountainous Hindu Kush region and near the Afghanistan border. The area is known for high mountain valleys and distinct local communities.'},
