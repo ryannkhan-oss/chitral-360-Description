@@ -35,6 +35,14 @@
 @media(max-width:760px){.topbar{padding:15px 16px}.logo{font-size:11px}.nav-btn{padding:9px 12px;font-size:10px}.hero-content{left:23px;right:22px}.hero-title{font-size:clamp(54px,15vw,90px)}.hero-copy{font-size:13px;max-width:360px}.hero-bottom{left:18px;right:18px;font-size:8px}.menu-screen{padding:90px 16px 25px}.menu-head{display:block}.menu-head p{margin-top:7px}.tiles{grid-template-columns:repeat(2,1fr);gap:9px}.tile{min-height:155px;height:22vh}.tile .tile-txt{left:12px;right:12px;bottom:12px}.tile h3{font-size:17px}.tile p{font-size:10px}.tile .arrow{right:10px;top:10px;width:27px;height:27px}.detail-inner{left:23px;right:23px}.detail-inner h1{font-size:clamp(40px,12vw,65px)}.detail-inner p{font-size:13px}.detail-foot{left:18px;right:18px}.map-title{top:83px;left:13px;max-width:230px;padding:12px}.map-title h2{font-size:18px}.map-loc-list{right:10px;bottom:15px;gap:6px}.map-loc-list button{font-size:9px;padding:9px 11px}.ai-wrap{grid-template-columns:1fr;height:100%;max-height:680px}.ai-side{padding:16px;display:flex;gap:12px;align-items:center}.ai-orb{width:37px;height:37px;margin:0;flex-shrink:0}.ai-side h2{font-size:18px}.ai-side p{display:none}.ai-side .notice{margin:0 0 0 auto;max-width:145px;font-size:9px}.chat-panel{padding:13px}.chat-history{padding:12px 2px}.bubble{font-size:11px}.ai-screen{padding:75px 12px 15px}.chat-head{font-size:9px}}
 @media(max-height:650px) and (min-width:761px){.tile{height:28vh;min-height:145px}.menu-screen{padding-top:85px}.ai-wrap{height:calc(100svh - 105px)}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+/* Screen isolation: each experience must stay hidden until navigation activates it. */
+#app > .screen:not(.active){display:none!important}
+#app > .screen.active{display:block!important}
+#app > .screen.ai-screen.active{display:flex!important}
+@media(max-width:760px){
+  #app > .screen.ai-screen.active{align-items:stretch}
+  .ai-wrap{min-height:0}
+}
 </style>
 </head>
 <body>
