@@ -241,8 +241,8 @@ const AI_API_URL = window.CHITRAL_360_AI_ENDPOINT || '';
 const guideMessages = [];
 let guideBusy = false;
 if (AI_API_URL) {
- $('#chat-state').textContent='● AI CONNECTED';
- $('#guide-mode-note').textContent='Connected to the live Chitral AI Guide. Answers are AI-generated; verify time-sensitive travel details locally.';
+ $('#chat-state').textContent='● AI MODE';
+ $('#guide-mode-note').textContent='Live AI mode is configured. If the backend is unavailable, the guide will tell you rather than pretending it answered.';
 }
 
 const knowledge=[
@@ -292,7 +292,7 @@ async function ask(q){
   if(guideMessages[guideMessages.length-1]?.role==='user')guideMessages.pop();
  }finally{
   guideBusy=false;send.disabled=false;input.disabled=false;send.textContent='↑';
-  state.textContent=AI_API_URL?'● AI CONNECTED':'● LOCAL GUIDE';
+  state.textContent=AI_API_URL?'● AI MODE':'● LOCAL GUIDE';
   input.focus();
  }
 }
