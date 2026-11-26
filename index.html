@@ -172,7 +172,7 @@ html,body{width:100%;height:100%;overscroll-behavior:none}
   .map-input-row input{flex:1}
   .map-input-row button{width:40px;flex:0 0 40px;border:1px solid #ffffff2b;border-radius:9px;background:#ffffff12;font-size:18px}
   .route-submit{width:100%;height:38px;margin-top:8px;border:0;border-radius:9px;background:#e6a5c8;color:#211421;font-size:10px;font-weight:800;letter-spacing:.08em}
-  #route-status{font-size:9px;line-height:1.45;color:#c9d0da;margin-top:7px;min-height:13px}
+  #route-status{font-size:9px;line-height:1.45;color:#c9d0da;margin-top:7px;min-height:13px}#route-directions{max-height:105px;font-size:9px;line-height:1.45}
   .map-loc-list{bottom:calc(18px + env(safe-area-inset-bottom));grid-template-columns:repeat(2,minmax(0,1fr));}
   .map-screen .detail-foot{display:none}
 }
@@ -183,7 +183,7 @@ html,body{width:100%;height:100%;overscroll-behavior:none}
   .map-input-row{display:flex;gap:7px}.map-input-row input{flex:1;min-width:0}
   .map-input-row button{width:42px;border:1px solid #ffffff2b;border-radius:9px;background:#ffffff12;font-size:18px}
   .route-submit{width:100%;height:40px;margin-top:9px;border:0;border-radius:9px;background:#e6a5c8;color:#211421;font-size:10px;font-weight:800;letter-spacing:.08em}
-  #route-status{font-size:10px;line-height:1.5;color:#c9d0da;margin-top:8px;min-height:15px}
+  #route-status{font-size:10px;line-height:1.5;color:#c9d0da;margin-top:8px;min-height:15px}#route-directions{margin:7px 0 0;padding:0 0 0 20px;max-height:150px;overflow:auto;color:#d9dce3;font-size:10px;line-height:1.55}#route-directions:empty{display:none}#route-directions li{padding:3px 0 3px 2px}
 }
 @media(max-width:380px){
   .menu-screen{padding-top:calc(98px + env(safe-area-inset-top))}
@@ -309,6 +309,7 @@ async function geocodePlace(query){
 async function buildRoadRoute(){
   const fromText=document.getElementById('route-from').value;
   const toText=document.getElementById('route-to').value;
+  document.getElementById('route-directions').innerHTML='';
   const btn=document.getElementById('find-route');btn.disabled=true;btn.textContent='FINDING ROUTE…';
   try{
     setRouteStatus('Finding both places…');
@@ -318,6 +319,19 @@ async function buildRoadRoute(){
     const response=await fetch(url);if(!response.ok)throw new Error('The road-routing service is unavailable right now.');
     const data=await response.json();if(data.code!=='Ok'||!data.routes?.length)throw new Error('No drivable route was found between these places.');
     const route=data.routes[0];
+    const directions=document.getElementById('route-directions');directions.innerHTML='';
+    const steps=(route.legs||[]).flatMap(leg=>leg.steps||[]);
+    steps.slice(0,14).forEach((step,index)=>{
+      const maneuver=step.maneuver||{},type=maneuver.type||'continue',modifier=maneuver.modifier?(' '+maneuver.modifier):'';
+      let instruction;
+      if(type==='depart')instruction='Start';
+      else if(type==='arrive')instruction='Arrive at your destination';
+      else instruction=type.replaceAll('_',' ')+modifier;
+      const road=step.name?(' onto '+step.name):'';
+      const distance=step.distance>=1000?(step.distance/1000).toFixed(1)+' km':Math.round(step.distance)+' m';
+      const li=document.createElement('li');li.textContent=instruction+road+' · '+distance;directions.appendChild(li);
+    });
+    if(steps.length>14){const li=document.createElement('li');li.textContent='Continue following the highlighted route for the remaining turns.';directions.appendChild(li);}
     if(routeLayer)mapInstance.removeLayer(routeLayer);
     routeLayer=L.geoJSON(route.geometry,{style:{color:'#e6a5c8',weight:6,opacity:.95,lineCap:'round',lineJoin:'round'}}).addTo(mapInstance);
     const startPoint=L.latLng(from.lat,from.lon),endPoint=L.latLng(to.lat,to.lon);
