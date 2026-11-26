@@ -1,29 +1,50 @@
-# Chitral 360 — OpenAI Guide backend
+# Chitral 360 — deploy the AI Guide
 
-The Worker keeps the OpenAI API key server-side. Never put the key in index.html, GitHub, or browser-side code.
+The website is a static GitHub Pages site. The OpenAI key must live only in a Cloudflare Worker secret; never put it in `index.html`, GitHub, or a public message.
 
-## 1. Create the Worker
-1. Sign in to Cloudflare → Workers & Pages.
-2. Create a Worker named `chitral-360-ai`.
-3. Open Edit code and replace the starter code with `cloudflare-worker/src/index.js` from this repository.
-4. Deploy and copy the `workers.dev` URL Cloudflare gives you.
+## Deploy the Worker
 
-## 2. Add the private API key
-1. Open the Worker → Settings → Variables and Secrets.
-2. Add a secret named exactly `OPENAI_API_KEY`.
-3. Paste your OpenAI API key into the secret value and save.
-4. Never paste the key into chat or commit it to GitHub.
+1. Open Cloudflare Dashboard → **Workers & Pages**.
+2. Open the Worker named **chitral-360-ai** (or create it with that name).
+3. Choose **Edit code**.
+4. Replace the starter code with the complete contents of `cloudflare-worker/src/index.js` in this repository.
+5. Click **Deploy**.
+6. Open **Settings → Variables and Secrets**. Add a secret named exactly `OPENAI_API_KEY`, paste your OpenAI API key into its value, and save/deploy.
+7. Keep the Worker URL as `https://chitral-360-ai.<your-subdomain>.workers.dev`.
 
-## 3. Connect the website
-In `index.html`, find `AI_API_URL` in the Chitral Guide script. Replace the empty string with your exact Worker URL plus `/api/chat`, for example:
-`const AI_API_URL = 'https://chitral-360-ai.YOUR-SUBDOMAIN.workers.dev/api/chat';`
-Commit and push the website change to main.
+## Website connection
 
-## 4. Verify
-Open `https://YOUR-WORKER-HOST/api/health`. Expect `{"ok":true,"service":"Chitral 360 AI Guide","configured":true}`. Then open the live website, visit Ask Chitral and test a question.
+The website calls this endpoint:
 
-## Endpoints
-- GET /api/health — reports whether the secret is configured, never reveals it.
-- POST /api/chat — accepts recent role/content messages and returns an answer.
+`https://chitral-360-ai.mdaudkhan143.workers.dev/api/chat`
 
-The Worker restricts browser requests to the GitHub Pages origin, validates message count and length, disables response caching and does not return the key. Set usage/billing limits in your OpenAI account as an additional cost control. Public endpoints can still be abused, so monitor usage and add Cloudflare rate limiting before promoting the site widely.
+If your Cloudflare Worker has a different hostname, change only the `AI_API_URL` constant near the bottom of `index.html` to your own hostname followed by `/api/chat`. Never put the API key there.
+
+## Verify before presenting
+
+Open the health URL in a browser:
+
+`https://YOUR-WORKER-HOST/api/health`
+
+A configured Worker returns JSON with `ok: true` and `configured: true`. Then open the website, select **Chitral Guide**, and ask a question such as “What are the three Kalash valleys?”
+
+If health says `configured: false`, the secret is missing or has not been deployed. If it cannot be reached, check the Worker URL and deployment. Do not describe the guide as live AI until this check passes.
+
+## Security and service limits
+
+- The Worker checks the GitHub Pages origin, validates request size and conversation length, uses a bounded recent chat history, disables response caching and never returns the secret.
+- A lightweight in-memory rate limiter is best-effort; configure a Cloudflare rate-limiting rule for `/api/chat` before broad public promotion.
+- Set usage limits/budget alerts in the OpenAI platform. The API may incur charges.
+- The guide does not have live web search, live weather or live road-condition data. It must not claim otherwise.
+
+## Optional command-line deployment
+
+From the repository root, with Node.js installed:
+
+```bash
+npx wrangler login
+npx wrangler deploy
+npx wrangler secret put OPENAI_API_KEY
+```
+
+The root `wrangler.toml` points to `worker/index.js`.
