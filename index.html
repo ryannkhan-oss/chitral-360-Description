@@ -192,6 +192,13 @@ html,body{width:100%;height:100%;overscroll-behavior:none}
   .logo{font-size:9px}
 }
 
+
+/* Map labels remain readable over the basemap. */
+.place-label{background:#111925e8!important;border:1px solid #e6a5c888!important;color:#fff!important;border-radius:6px!important;padding:3px 6px!important;font:600 10px 'DM Sans',sans-serif!important;box-shadow:0 3px 12px #0007!important}
+.place-label:before{display:none!important}
+.route-submit:disabled{opacity:.65;cursor:wait}
+@media(max-width:760px){.place-label{font-size:9px!important;padding:2px 5px!important}}
+
 </style>
 </head>
 <body>
@@ -237,7 +244,18 @@ setInterval(()=>{
   preload.src=next;
 },8500);
 
-function go(id){if(!document.getElementById(id))return;if(id===current)return;const cover=document.getElementById('cover');cover.classList.remove('play');void cover.offsetWidth;cover.classList.add('play');setTimeout(()=>{screens.forEach(s=>{s.classList.remove('active','enter');if(s.id===current)s.classList.add('exit')});const old=document.getElementById(current);old.classList.remove('exit');const next=document.getElementById(id);next.classList.add('active','enter');current=id;if(id==='map')setTimeout(initMap,180);},220);setTimeout(()=>cover.classList.remove('play'),600)}
+function go(id){
+  const next=document.getElementById(id);if(!next||id===current)return;
+  const old=document.getElementById(current);
+  old.classList.remove('enter');old.classList.add('exit');
+  setTimeout(()=>{
+    old.classList.remove('active','exit');
+    next.classList.add('active','enter');
+    current=id;
+    if(id==='map')setTimeout(initMap,220);
+    if(id==='menu')next.scrollTop=0;
+  },280);
+}
 document.addEventListener('click',e=>{const goBtn=e.target.closest('[data-go]');if(goBtn){go(goBtn.dataset.go);if(goBtn.dataset.ask){setTimeout(()=>ask(goBtn.dataset.ask),300)}const tile=e.target.closest('.tile');if(tile){tile.style.transform='scale(.97)';setTimeout(()=>tile.style.transform='',160)}}});
 
 const chitralPlaces={
@@ -281,6 +299,8 @@ function initMap(){
 }
 async function geocodePlace(query){
   const q=query.trim();if(!q)throw new Error('Enter both a starting location and a destination.');
+  const coordinates=q.match(/^\\s*(-?\\d+(?:\\.\\d+)?)\\s*,\\s*(-?\\d+(?:\\.\\d+)?)\\s*$/);
+  if(coordinates){const lat=Number(coordinates[1]),lon=Number(coordinates[2]);if(Math.abs(lat)<=90&&Math.abs(lon)<=180)return {lat,lon,name:'Selected coordinates'};}
   const response=await fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=pk&q='+encodeURIComponent(q+', Pakistan'),{headers:{'Accept-Language':'en'}});
   if(!response.ok)throw new Error('Place search is temporarily unavailable. Try again.');
   const results=await response.json();if(!results.length)throw new Error('Could not find “'+q+'”. Try a nearby town or landmark.');
