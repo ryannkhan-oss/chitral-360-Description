@@ -237,7 +237,7 @@ $('#route').addEventListener('click',buildRoute);
 ['from','to'].forEach(id=>$('#'+id).addEventListener('keydown',e=>{if(e.key==='Enter')buildRoute()}));
 
 // Chitral Guide: live OpenAI backend when configured, curated fallback while it is offline.
-const AI_API_URL = window.CHITRAL_360_AI_ENDPOINT || 'https://chitral-360-ai.YOUR-SUBDOMAIN.workers.dev/api/chat';
+const AI_API_URL = 'https://chitral-360-ai.mdaudkhan143.workers.dev/';
 const guideMessages = [];
 let guideBusy = false;
 if (AI_API_URL) {
@@ -275,7 +275,7 @@ async function ask(q){
  state.textContent=AI_API_URL?'● THINKING':'● LOCAL GUIDE';
  try{
   if(AI_API_URL){
-   const response=await fetch(AI_API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:guideMessages.slice(-10)})});
+   const response=await fetch(AI_API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:q})});
    const data=await response.json().catch(()=>({}));
    if(!response.ok)throw new Error(data.error||'The AI guide is temporarily unavailable.');
    if(typeof data.answer!=='string'||!data.answer.trim())throw new Error('The AI guide returned an empty answer. Please try again.');
