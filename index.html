@@ -155,7 +155,7 @@ const imageFallback='https://upload.wikimedia.org/wikipedia/commons/0/0e/The_Cit
 $('img').forEach(img=>img.addEventListener('error',()=>{if(img.dataset.fallback)return;img.dataset.fallback='1';img.src=imageFallback;}));
 const heroPhotos=[
  'https://upload.wikimedia.org/wikipedia/commons/0/0e/The_City_of_Chitral_and_Tirich_Mir.jpg',
- 'https://upload.wikimedia.org/wikipedia/commons/0/0e/The_City_of_Chitral_and_Tirich_Mir.jpg',
+ 'https://upload.wikimedia.org/wikipedia/commons/8/80/Chitral_River_%28Kunar_River_in_Pakistan%29_Near_Drosh%2CChitral%2CKPK.jpg',
  'https://upload.wikimedia.org/wikipedia/commons/8/81/Kalash_Valley%2C_Chitral%2C_Pakistan.jpg',
  'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f6/Qaqlasht_chitral.jpg/1280px-Qaqlasht_chitral.jpg'
 ];
@@ -179,7 +179,7 @@ function initMap(){
   marker.bindTooltip(p.name,{permanent:true,direction:'top',offset:[0,-8],className:'place-name-label'});placePins[p.id]=marker;
  });
  const container=$('#place-buttons');
- placeData.slice(0,12).forEach(p=>{
+ placeData.forEach(p=>{
   const b=document.createElement('button');b.textContent=p.name;b.addEventListener('click',()=>{map.flyTo(p.coords,p.zoom,{duration:1.1});placePins[p.id].openPopup();$('#to').value=p.name});
   container.appendChild(b);
  });
@@ -211,7 +211,9 @@ $('#locate').addEventListener('click',async()=>{
 async function buildRoute(){
  const btn=$('#route');btn.disabled=true;btn.textContent='SEARCHING FOR ROUTE…';$('#steps').innerHTML='';
  try{
-  if(!map)initMap();status('Finding the starting point and destination…');
+  if(!map)initMap();
+  if(!map)throw new Error('The map could not load. Check your connection and reload the page.');
+  status('Finding the starting point and destination…');
   const [a,b]=await Promise.all([geocode($('#from').value),geocode($('#to').value)]);
   status('Requesting road directions…');
   const url='https://router.project-osrm.org/route/v1/driving/'+a.lon+','+a.lat+';'+b.lon+','+b.lat+'?overview=full&geometries=geojson&steps=true';
@@ -236,14 +238,26 @@ async function buildRoute(){
 $('#route').addEventListener('click',buildRoute);
 ['from','to'].forEach(id=>$('#'+id).addEventListener('keydown',e=>{if(e.key==='Enter')buildRoute()}));
 
-// Chitral Guide: live OpenAI backend when configured, curated fallback while it is offline.
-const AI_API_URL = 'https://chitral-360-ai.mdaudkhan143.workers.dev/';
+// Chitral Guide: use the deployed Cloudflare Worker API. The secret stays server-side.
+const AI_API_URL = 'https://chitral-360-ai.mdaudkhan143.workers.dev/api/chat';
+const AI_HEALTH_URL = AI_API_URL.replace(/\\/api\\/chat$/, '/api/health');
 const guideMessages = [];
 let guideBusy = false;
-if (AI_API_URL) {
- $('#chat-state').textContent='● AI MODE';
- $('#guide-mode-note').textContent='Live AI mode is configured. If the backend is unavailable, the guide will tell you rather than pretending it answered.';
-}
+let guideOnline = false;
+$('#chat-state').textContent='● CONNECTING';
+$('#guide-mode-note').textContent='Connecting securely to the Chitral 360 AI service…';
+(async()=>{
+ try{
+  const r=await fetch(AI_HEALTH_URL,{method:'GET',cache:'no-store'});
+  const health=await r.json();
+  guideOnline=Boolean(r.ok&&health.ok&&health.configured);
+ }catch{guideOnline=false}
+ $('#chat-state').textContent=guideOnline?'● AI ONLINE':'● AI OFFLINE';
+ $('#chat-state').style.color=guideOnline?'#8eddb1':'#e7a8c9';
+ $('#guide-mode-note').textContent=guideOnline
+  ?'Connected to the live Chitral 360 AI Guide. Ask about places, culture, history and travel planning.'
+  :'The live guide is currently unreachable. Check the connection or Worker configuration and try again.';
+})();
 
 const knowledge=[
  {keys:['where','location','located','geography'],text:'Chitral is in northern Khyber Pakhtunkhwa, Pakistan, in the Hindu Kush mountains. The district includes Lower and Upper Chitral, with Chitral Town as a major centre.'},
@@ -272,27 +286,29 @@ async function ask(q){
  guideBusy=true;
  const send=$('#chat-form button'),input=$('#question'),state=$('#chat-state');
  send.disabled=true;input.disabled=true;send.textContent='…';
- state.textContent=AI_API_URL?'● THINKING':'● LOCAL GUIDE';
+ state.textContent='● THINKING';
  try{
-  if(AI_API_URL){
-   const response=await fetch(AI_API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:q})});
-   const data=await response.json().catch(()=>({}));
-   if(!response.ok)throw new Error(data.error||'The AI guide is temporarily unavailable.');
-   if(typeof data.answer!=='string'||!data.answer.trim())throw new Error('The AI guide returned an empty answer. Please try again.');
-   guideMessages.push({role:'assistant',content:data.answer});
-   addBubble(data.answer,'bot');
-  }else{
-   await new Promise(resolve=>setTimeout(resolve,180));
-   const localAnswer=answer(q);
-   guideMessages.push({role:'assistant',content:localAnswer});
-   addBubble(localAnswer,'bot');
-  }
+  const messages=guideMessages.slice(-12);
+  const response=await fetch(AI_API_URL,{
+   method:'POST',
+   headers:{'Content-Type':'application/json'},
+   cache:'no-store',
+   body:JSON.stringify({messages})
+  });
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok)throw new Error(data.error||'The AI guide is temporarily unavailable. Please try again.');
+  if(typeof data.answer!=='string'||!data.answer.trim())throw new Error('The AI guide returned an empty answer. Please try again.');
+  guideMessages.push({role:'assistant',content:data.answer});
+  addBubble(data.answer,'bot');
+  guideOnline=true;
  }catch(error){
   addBubble(error.message||'Could not reach the AI guide. Please try again.','bot');
   if(guideMessages[guideMessages.length-1]?.role==='user')guideMessages.pop();
+  guideOnline=false;
  }finally{
   guideBusy=false;send.disabled=false;input.disabled=false;send.textContent='↑';
-  state.textContent=AI_API_URL?'● AI MODE':'● LOCAL GUIDE';
+  state.textContent=guideOnline?'● AI ONLINE':'● AI OFFLINE';
+  state.style.color=guideOnline?'#8eddb1':'#e7a8c9';
   input.focus();
  }
 }
