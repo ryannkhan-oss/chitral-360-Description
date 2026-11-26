@@ -237,7 +237,7 @@ $('#route').addEventListener('click',buildRoute);
 ['from','to'].forEach(id=>$('#'+id).addEventListener('keydown',e=>{if(e.key==='Enter')buildRoute()}));
 
 // Chitral Guide: live OpenAI backend when configured, curated fallback while it is offline.
-const AI_API_URL = window.CHITRAL_360_AI_ENDPOINT || '';
+const AI_API_URL = window.CHITRAL_360_AI_ENDPOINT || 'https://chitral-360-ai.YOUR-SUBDOMAIN.workers.dev/api/chat';
 const guideMessages = [];
 let guideBusy = false;
 if (AI_API_URL) {
