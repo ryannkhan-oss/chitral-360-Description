@@ -28,3 +28,8 @@ Repository Settings → Pages → Deploy from a branch → `main` → `/` (root)
 - Future simulator is an illustrative calculation, not an environmental forecast or measured score.
 - Ambient sound is generated in-browser; the phrase uses browser text-to-speech, which may not accurately pronounce Khowar.
 - The demo stores mission progress in session storage only.
+
+
+## Photo credits
+- The City of Chitral and Tirich Mir — Emaad Paracha, Wikimedia Commons, CC BY-SA 4.0: https://commons.wikimedia.org/wiki/File:The_City_of_Chitral_and_Tirich_Mir.jpg
+- On the way to Kalash Valley Chitral Pakistan — Zindagi-zoq-e-Safar, Wikimedia Commons, CC BY-SA 4.0: https://commons.wikimedia.org/wiki/File:On_the_way_to_Kalash_Valley_Chitral_Pakistan.jpg
