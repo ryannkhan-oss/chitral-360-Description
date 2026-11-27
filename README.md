@@ -13,7 +13,7 @@ A ground-up static website rebuild designed as an interactive exhibition experie
 - Ten-question quiz with score and results
 - Searchable curated knowledge guide (not live AI)
 - Optional synthesized ambience (no audio recording)
-- Responsive layout and reduced-motion support
+- Responsive layout, reduced-motion support, and offline shell/image caching after first visit
 
 ## Run
 Open `index.html` in a modern browser, or serve the folder with any static web server.
@@ -33,3 +33,6 @@ Repository Settings → Pages → Deploy from a branch → `main` → `/` (root)
 ## Photo credits
 - The City of Chitral and Tirich Mir — Emaad Paracha, Wikimedia Commons, CC BY-SA 4.0: https://commons.wikimedia.org/wiki/File:The_City_of_Chitral_and_Tirich_Mir.jpg
 - On the way to Kalash Valley Chitral Pakistan — Zindagi-zoq-e-Safar, Wikimedia Commons, CC BY-SA 4.0: https://commons.wikimedia.org/wiki/File:On_the_way_to_Kalash_Valley_Chitral_Pakistan.jpg
+
+## Offline use
+The service worker caches the site shell and successfully fetched image/font assets after an online visit. Visit each section once while connected for best offline coverage. The map is schematic and the knowledge guide is local; no live network data is required for interactions.
