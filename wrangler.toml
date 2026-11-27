@@ -1,4 +1,0 @@
-name = "chitral-360-ai"
-main = "worker/index.js"
-compatibility_date = "2026-11-26"
-workers_dev = true
