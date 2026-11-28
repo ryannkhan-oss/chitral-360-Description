@@ -36,3 +36,15 @@ Repository Settings → Pages → Deploy from a branch → `main` → `/` (root)
 
 ## Offline use
 The service worker caches the site shell and successfully fetched image/font assets after an online visit. Visit each section once while connected for best offline coverage. The map is schematic and the knowledge guide is local; no live network data is required for interactions.
+
+## Expanded content experience (November 2026)
+
+- Culture notes: music, clothing/crafts, food, language, polo, oral heritage, with consent and community-source guidance.
+- Stories: short editorial entries about history, landscape, cultural life and oral memory; story filters and accessible reading modal.
+- Photo archive: 13 Chitral-related Wikimedia Commons photographs with fullscreen viewer, category filters, previous/next controls and source links. Check each Commons file page for its author and license before reuse.
+- Hidden Chitral: discovery picker and destination cards, connected to the map field notes.
+- Chitral in 60 seconds: six-scene, manually navigated intro.
+- Exploration map: 17 selectable markers in an illustrative schematic. Marker positions are approximate—not navigation/GPS data. Each place panel includes a map-search link.
+- Homepage shortcuts and responsive layouts for the new sections.
+
+The cultural and story content is intentionally introductory. Community-contributed stories, recordings, recipes and language content should be reviewed and shared with consent before adding them.
